@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 public class GameWindow extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -26,5 +27,16 @@ public void stop(){
     while(running){
         System.out.println("TESTING");
     }
+    }
+    public void Render(){
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs ==null){
+            this.createBufferStrategy(2);
+            bs = this.getBufferStrategy();
+        }
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect();
+        g.dispose();
     }
 }
