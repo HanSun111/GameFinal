@@ -1,6 +1,12 @@
 import javax.swing.*;
-
+import java.awt.*;
+import java.awt.event.*;
 public class GameFrame extends JFrame {
+    Image image;
+    Graphics graphics;
+    Box player;
+    Box enemy;
+    boolean gameOver;
     GameFrame(){
         //adds key listener
 
@@ -21,6 +27,15 @@ public class GameFrame extends JFrame {
 
 
     }
+    public void paint(Graphics g){
 
+    }
+
+    public void checkCollision(){
+
+    }
+    public class AL extends KeyAdapter{
+
+    }
 
 }

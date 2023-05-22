@@ -22,5 +22,10 @@ public class GamePanel extends JPanel{
         requestFocus();
     }
 
+    public void paint(Graphics g){
+
+    }
+
+
 
 }

@@ -2,15 +2,19 @@ import java.awt.*;
 public class Units {
     private int xCoord;
     private int yCoord;
+    private int width;
+    private int height;
     private int speed;
     private int damage;
     private int health;
     private Rectangle hitBox;
     private boolean collison = false;
 
-    public Units(int x, int y){
+    public Units(int x, int y, int w, int h){
         xCoord = x;
         yCoord = y;
+        width = w;
+        height = h;
     }
 
     public int getxCoord() {

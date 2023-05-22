@@ -1,5 +1,5 @@
 public class Runner {
     public static void main(String[] args) {
-        new GameWindow().start();
+        GameFrame g = new GameFrame();
     }
 }
