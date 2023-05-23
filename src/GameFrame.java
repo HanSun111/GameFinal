@@ -1,28 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+
 public class GameFrame extends JFrame {
     Image image;
     Graphics graphics;
-    Box player;
-    Box enemy;
     boolean gameOver;
     GameFrame(){
-        //adds key listener
+        //frame and panel as game.
 
         // trial for game icon
         ImageIcon icon = new ImageIcon("game icon/game icon.png");
-        this.setIconImage(icon.getImage());
-        this.setTitle("Game");
-        this.setSize(1800,600);
-        this.setLocationRelativeTo(null);
         this.setResizable(false);
-
-        //without it, p changes all background to black.
-        //this.setLayout(null);
-
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.setIconImage(icon.getImage());
+        this.setTitle("IDK it's a Game");
+
+        GamePanel gamePanel = new GamePanel();
+        this.add(gamePanel);
+        this.pack();
+
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        gamePanel.startThread();
 
 
 

@@ -9,12 +9,15 @@ public class Units {
     private int health;
     private Rectangle hitBox;
     private boolean collison = false;
+    GamePanel gP;
+    public Units(){}
 
-    public Units(int x, int y, int w, int h){
+    public Units(int x, int y, int w, int h, GamePanel g){
         xCoord = x;
         yCoord = y;
         width = w;
         height = h;
+        gP = g;
     }
 
     public int getxCoord() {
