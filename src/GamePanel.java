@@ -6,6 +6,7 @@ import java.awt.event.*;
 public class GamePanel extends JPanel implements Runnable{
     //dimensions
     final int SCALE = 2;
+    final int FPS = 60;
 
     KeyHandler kH = new KeyHandler();
 
@@ -40,12 +41,15 @@ public void startThread(){
     @Override
     public void run() {
 
-        while (gameThread != null){
+        double drawInterval = 1000000000/FPS; //0.016666666 seconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
 
-            //System.out.println("AHHHHH");
-            //undates information on character position
+        while (gameThread != null){
+            //long currentTime = System.nanoTime();
+
+
             update();
-            //draw
+
             repaint();
         }
     }
