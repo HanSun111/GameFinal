@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.*;
-
 public class GamePanel extends JPanel implements Runnable{
     //dimensions
     final int SCALE = 2;
@@ -13,21 +10,21 @@ public class GamePanel extends JPanel implements Runnable{
     // game thread
     Thread gameThread;
 
+    Player player = new Player(this, kH);
+
     //set default position of player
     int x = 950;
-    int y = 100;
-    int playerSpeed = 4;
+    int y = 450;
+    int playerSpeed = 5;
 
-    public GamePanel() {
-        this.setPreferredSize(new Dimension(1900,700));
+    GamePanel() {
+        this.setPreferredSize(new Dimension(1900,600));
+
+
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
         this.setFocusable(true);
-    }
-
-    public void paint(Graphics g){
-
     }
 
     public void draw(){
@@ -36,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 public void startThread(){
         gameThread = new Thread(this);
-        gameThread.start();;
+        gameThread.start();
 }
     @Override
     public void run() {
@@ -45,20 +42,32 @@ public void startThread(){
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null){
-            //long currentTime = System.nanoTime();
-
-
+            long currentTime = System.nanoTime();
+            //testing to see if game ran.
+            // System.out.println(currentTime);
             update();
 
             repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void update(){
         if(kH.left){
             x-=playerSpeed;
+            System.out.println("left");
         }
         if(kH.right){
             x+=playerSpeed;
+            System.out.println("right");
         }
 
     }
@@ -66,8 +75,8 @@ public void startThread(){
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
         g2.setColor(Color.white);
+
         g2.fillRect(x, y, 50,100 );
         g2.dispose();
     }
