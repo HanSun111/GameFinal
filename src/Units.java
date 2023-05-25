@@ -1,26 +1,28 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Units {
-    private int xCoord;
-    private int yCoord;
-    private int width;
-    private int height;
-    private int speed;
+    public int xCoord;
+    public int yCoord;
+    public int speed;
+
+    public BufferedImage idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
+    public String direction;
     private int damage;
     private int health;
-    private Rectangle hitBox;
-    private boolean collison = false;
-    GamePanel gP;
-    public Units(){}
+    //private Rectangle hitBox;
+    //private boolean collison = false;
+    //public Units(){}
 
-    public Units(int x, int y, int w, int h, GamePanel g){
+/*    public Units(int x, int y, int w, int h, GamePanel g){
         xCoord = x;
         yCoord = y;
-        width = w;
-        height = h;
         gP = g;
     }
 
-    public int getxCoord() {
+ */
+
+    /*public int getxCoord() {
         return xCoord;
     }
 
@@ -75,4 +77,6 @@ public class Units {
     public void setCollison(boolean collison) {
         this.collison = collison;
     }
+
+     */
 }

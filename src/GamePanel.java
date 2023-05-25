@@ -1,8 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+
 public class GamePanel extends JPanel implements Runnable{
+    Image background;
+    Image playerIdle;
     //dimensions
-    final int SCALE = 2;
+    //final int SCALE = 2;
     final int FPS = 60;
 
     KeyHandler kH = new KeyHandler();
@@ -19,16 +22,21 @@ public class GamePanel extends JPanel implements Runnable{
 
     GamePanel() {
         this.setPreferredSize(new Dimension(1900,600));
-
-
-        this.setBackground(Color.black);
+        background = new ImageIcon("Background/background.png").getImage();
+        playerIdle = new ImageIcon("player/Idle.png").getImage();
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
         this.setFocusable(true);
     }
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
 
-    public void draw(){
-
+        //broken
+        g2.drawImage(background, 0, 0, null);
+        //character
+        player.draw(g2);
+        g2.dispose();
     }
 
 public void startThread(){
@@ -61,23 +69,7 @@ public void startThread(){
         }
     }
     public void update(){
-        if(kH.left){
-            x-=playerSpeed;
-            System.out.println("left");
-        }
-        if(kH.right){
-            x+=playerSpeed;
-            System.out.println("right");
-        }
-
+        player.update();
     }
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
-
-        g2.fillRect(x, y, 50,100 );
-        g2.dispose();
-    }
 }
