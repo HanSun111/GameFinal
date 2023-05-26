@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
     Image background;
-    Image playerIdle;
+    Image backgroundModified;
     //dimensions
     //final int SCALE = 2;
     final int FPS = 60;
@@ -22,8 +22,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     GamePanel() {
         this.setPreferredSize(new Dimension(1900,600));
-        background = new ImageIcon("Background/background.png").getImage();
-        playerIdle = new ImageIcon("player/Idle.png").getImage();
+        // sets background to size of the dimensions;
+        background = new ImageIcon("Background/forest.png").getImage();
+        backgroundModified = background.getScaledInstance(1900, 600, Image.SCALE_SMOOTH);
+
+
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
         this.setFocusable(true);
@@ -32,8 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        //broken
-        g2.drawImage(background, 0, 0, null);
+        g2.drawImage(backgroundModified, 0, 0, null);
+
         //character
         player.draw(g2);
         g2.dispose();
