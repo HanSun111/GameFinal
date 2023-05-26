@@ -65,6 +65,7 @@ public void startThread(){
                 remainingTime = remainingTime/1000000;
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
+                //sometimes error occurs when time is zero
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
