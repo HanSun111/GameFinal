@@ -15,11 +15,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     Player player = new Player(this, kH);
 
-    //set default position of player
-    int x = 950;
-    int y = 450;
-    int playerSpeed = 5;
-
     GamePanel() {
         this.setPreferredSize(new Dimension(1900,600));
         // sets background to size of the dimensions;
@@ -63,6 +58,11 @@ public void startThread(){
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime/1000000;
+
+                if(remainingTime < 0){
+                    remainingTime = 0;
+                }
+
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
                 //sometimes error occurs when time is zero

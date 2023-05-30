@@ -16,6 +16,7 @@ public class Player extends Units{
         kH = kh;
 
         attack1 = new ImageIcon("player/Attack1.png").getImage();
+
         idle = new ImageIcon("player/Idle.png").getImage();
 
         setDefaultValues();
@@ -24,9 +25,9 @@ public class Player extends Units{
 
     public void setDefaultValues(){
         xCoord = 950;
-        yCoord = 450;
+        yCoord = 420;
         speed = 5;
-        direction = "left";
+        direction = "right";
     }
 
 //    public void getPlayerImage(){
@@ -52,30 +53,30 @@ public class Player extends Units{
 
 
     public void update() {
-
-        if (kH.left) {
+        long start = System.nanoTime();
+        System.out.println(start);
+        if (kH.left && xCoord > -20) {
             xCoord -= speed;
             direction = "left";
             System.out.println("left");
         }
-        if (kH.right) {
+        if (kH.right && xCoord < 1720) {
             xCoord += speed;
             direction = "right";
             System.out.println("right");
         }
         if (kH.jump) {
             direction = "jump";
-            yCoord += speed;
-            System.out.println("space");
+            yCoord -= speed * speed;
+            System.out.println("jump");
         }
-        if (yCoord != 450) {
-            while (yCoord != 450) {
+        if (yCoord != 420 && start > 1000000000) {
+            while (yCoord != 420) {
                 yCoord -= speed;
             }
         }
     }
     public void draw(Graphics2D g2) {
-//            g2.setColor(Color.black);
         g2.drawImage(attack1, xCoord, yCoord, null);
 //            g2.fillRect(xCoord, yCoord, 50,100 );
 
