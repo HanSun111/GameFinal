@@ -53,8 +53,8 @@ public class Player extends Units{
 
 
     public void update() {
-        long start = System.nanoTime();
-        System.out.println(start);
+        //long start = System.nanoTime();
+        //System.out.println(start);
         if (kH.left && xCoord > -20) {
             xCoord -= speed;
             direction = "left";
@@ -65,16 +65,22 @@ public class Player extends Units{
             direction = "right";
             System.out.println("right");
         }
-        if (kH.jump) {
+        if (kH.jump && yCoord > 250) {
             direction = "jump";
-            yCoord -= speed * speed;
+            yCoord -= 15;
             System.out.println("jump");
         }
-        if (yCoord != 420 && start > 1000000000) {
-            while (yCoord != 420) {
-                yCoord -= speed;
+
+        if (yCoord != 420 && !kH.jump) {
+            yCoord = 420;
+            try {
+                //0.05seconds
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
+
     }
     public void draw(Graphics2D g2) {
         g2.drawImage(attack1, xCoord, yCoord, null);
