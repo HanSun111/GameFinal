@@ -6,10 +6,9 @@ public class Units {
     public int yCoord;
     public int speed;
 
-    public BufferedImage idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
-    public String direction;
-    private int damage;
-    private int health;
+    public String animation;
+    public int damage;
+    public int health;
     //private Rectangle hitBox;
     //private boolean collison = false;
     //public Units(){}
