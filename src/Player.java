@@ -57,8 +57,6 @@ public class Player extends Units{
     }
 
     public void update() {
-        //long start = System.nanoTime();
-        //System.out.println(start);
         animation = "idle";
         if (kH.left && xCoord > -20) {
             xCoord -= speed;

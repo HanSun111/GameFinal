@@ -12,10 +12,13 @@ public class SpriteSheetAnimation extends JPanel {
     private int currentFrame;
     private int totalFrames;
     private int delay;
+    public String spriteName;
 
     public SpriteSheetAnimation() {
+        //example
+        spriteName = "Idle";
         // Load your sprite sheet image
-        spriteSheet = loadImage("player/Idle.png");
+        spriteSheet = loadImage("player/" + spriteName + ".png");
 
         // Set sprite width and height
         spriteWidth = 200;
