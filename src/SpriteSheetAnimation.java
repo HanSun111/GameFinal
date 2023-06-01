@@ -9,14 +9,16 @@ public class SpriteSheetAnimation extends JPanel {
     private BufferedImage spriteSheet;
     private int spriteWidth;
     private int spriteHeight;
+    // number is reversed when using flipped animations
     private int currentFrame;
+    // changes depending on sprite
     private int totalFrames;
     private int delay;
     public String spriteName;
 
     public SpriteSheetAnimation() {
         //example
-        spriteName = "Idle";
+        spriteName = "Attack2";
         // Load your sprite sheet image
         spriteSheet = loadImage("player/" + spriteName + ".png");
 
@@ -26,7 +28,7 @@ public class SpriteSheetAnimation extends JPanel {
 
         // Set initial frame and total frames
         currentFrame = 0;
-        totalFrames = 8;
+        totalFrames = 6;
 
         // Set animation delay (in milliseconds)
         delay = 100;
