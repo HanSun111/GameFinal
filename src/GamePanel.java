@@ -1,19 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
+    private BufferedImage spriteSheet;
     Image background;
     Image backgroundModified;
-    //dimensions
-    //final int SCALE = 2;
+
     final int FPS = 60;
 
     KeyHandler kH = new KeyHandler();
+    MouseHandler mH = new MouseHandler();
 
     // game thread
     Thread gameThread;
 
-    Player player = new Player(this, kH);
+    Player player = new Player(this, kH, mH);
 
     GamePanel() {
         this.setPreferredSize(new Dimension(1900,600));
@@ -24,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
+        this.addMouseListener(mH);
         this.setFocusable(true);
     }
     public void paintComponent(Graphics g){

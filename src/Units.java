@@ -1,81 +1,43 @@
 import java.awt.*;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class Units {
     public int xCoord;
     public int yCoord;
     public int speed;
-
+    public int spriteW;
+    public int spriteH;
+    public int currentFrame;
+    public int totalFrames;
+    public int delay;
     public String animation;
+    public String direction;
     public int damage;
     public int health;
-    //private Rectangle hitBox;
-    //private boolean collison = false;
-    //public Units(){}
+    public Rectangle hitBox;
 
-/*    public Units(int x, int y, int w, int h, GamePanel g){
-        xCoord = x;
-        yCoord = y;
-        gP = g;
+    public BufferedImage loadImage(String imagePath) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResource(imagePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
- */
-
-    /*public int getxCoord() {
-        return xCoord;
+    private void updateAnimation() {
+        currentFrame++;
+        if (currentFrame >= totalFrames) {
+            currentFrame = 0;
+        }
     }
 
-    public void setxCoord(int xCoord) {
-        this.xCoord = xCoord;
+    public Dimension getPreferredSize() {
+        return new Dimension(spriteW, spriteH);
     }
 
-    public int getyCoord() {
-        return yCoord;
-    }
 
-    public void setyCoord(int yCoord) {
-        this.yCoord = yCoord;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public Rectangle getHitBox() {
-        return hitBox;
-    }
-
-    public void setHitBox(Rectangle hitBox) {
-        this.hitBox = hitBox;
-    }
-
-    public boolean isCollison() {
-        return collison;
-    }
-
-    public void setCollison(boolean collison) {
-        this.collison = collison;
-    }
-
-     */
 }

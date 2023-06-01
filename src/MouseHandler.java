@@ -27,10 +27,10 @@ public class MouseHandler implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int pressed = e.getButton();
 
-        if(pressed == KeyEvent.VK_A){
+        if(pressed == MouseEvent.BUTTON1){
             attacking = false;
         }
-        if(pressed == KeyEvent.VK_D){
+        if(pressed == MouseEvent.BUTTON3){
             special = false;
         }
     }
