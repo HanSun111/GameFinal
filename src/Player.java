@@ -83,7 +83,6 @@ public class Player extends Units{
             yCoord -= 20;
             System.out.println("jump");
         }
-
         if (yCoord <= 420 && !kH.jump) {
             try {
                 Thread.sleep(8);
