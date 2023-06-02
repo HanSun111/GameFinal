@@ -96,9 +96,29 @@ public class Player extends Units{
             }
         }
 
-        if(mH.attacking){
+        if(mH.attacking && !mH.special){
             animation = "normalAtk";
             System.out.println("normalAtk");
+        }
+        if(mH.special && !mH.attacking) {
+            animation = "special";
+            System.out.println("Special");
+            if (direction.equals("L")) {
+                try {
+                    Thread.sleep(25);
+                    xCoord -= 55;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (direction.equals("R")) {
+                try {
+                    Thread.sleep(25);
+                    xCoord += 55;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -116,6 +136,9 @@ public class Player extends Units{
 
             case "normalAtkL" -> attack1F;
             case "normalAtkR" -> attack1;
+
+            case "specialL" -> attack2F;
+            case "specialR" -> attack2;
 
             default -> null;
         };
