@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean left, right, jump;
+    public boolean left, right, jump, heal;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -21,6 +21,9 @@ public class KeyHandler implements KeyListener {
         if(pressed == KeyEvent.VK_SPACE){
             jump = true;
         }
+        if(pressed == KeyEvent.VK_X){
+            heal = true;
+        }
 
     }
 
@@ -36,6 +39,9 @@ public class KeyHandler implements KeyListener {
         }
         if(pressed == KeyEvent.VK_SPACE){
             jump = false;
+        }
+        if(pressed == KeyEvent.VK_X){
+            heal = false;
         }
     }
 }
