@@ -1,4 +1,4 @@
-import com.intellij.ui.JBColor;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -122,7 +122,7 @@ public class Player extends Units{
 
         int hitBoxX = xCoord + 88;
         int hitBoxY = yCoord + 69;
-        g2.setColor(JBColor.WHITE);
+        g2.setColor(Color.WHITE);
         g2.fillRect(hitBoxX, hitBoxY, 25,55);
 
         g2.drawImage(image, xCoord, yCoord, null);
