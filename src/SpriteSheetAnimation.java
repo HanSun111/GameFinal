@@ -18,7 +18,7 @@ public class SpriteSheetAnimation extends JPanel {
 
     public SpriteSheetAnimation() {
         //example
-        spriteName = "Attack2";
+        spriteName = "Idlef";
         // Load your sprite sheet image
         spriteSheet = loadImage("player/" + spriteName + ".png");
 
@@ -28,7 +28,7 @@ public class SpriteSheetAnimation extends JPanel {
 
         // Set initial frame and total frames
         currentFrame = 0;
-        totalFrames = 6;
+        totalFrames = 8;
 
         // Set animation delay (in milliseconds)
         delay = 100;

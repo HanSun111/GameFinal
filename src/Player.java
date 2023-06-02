@@ -100,7 +100,7 @@ public class Player extends Units{
             animation = "normalAtk";
             System.out.println("normalAtk");
         }
-        if(mH.special && !mH.attacking) {
+        if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720) {
             animation = "special";
             System.out.println("Special");
             if (direction.equals("L")) {
