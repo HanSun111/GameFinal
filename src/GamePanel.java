@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 public class GamePanel extends JPanel implements Runnable{
     private BufferedImage spriteSheet;
     Image background;
@@ -23,7 +22,6 @@ public class GamePanel extends JPanel implements Runnable{
         background = new ImageIcon("Background/forest.png").getImage();
         backgroundModified = background.getScaledInstance(1900, 600, Image.SCALE_SMOOTH);
 
-
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
         this.addMouseListener(mH);
@@ -37,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         //character
         player.draw(g2);
+        g2.drawRect(player.hitBoxX, player.hitBoxY, 150, 55);
         g2.dispose();
     }
 
@@ -55,7 +54,6 @@ public void startThread(){
             //testing to see if game ran.
             // System.out.println(currentTime);
             update();
-
             repaint();
 
             try {

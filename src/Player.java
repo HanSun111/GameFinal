@@ -1,5 +1,3 @@
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,15 +6,18 @@ public class Player extends Units{
     GamePanel gP;
     KeyHandler kH;
     MouseHandler mH;
+    int hitBoxX;
+    int hitBoxY;
+
+    // right side
     Image idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
+    // left side
     Image idleF, runF, jumpF, attack1F, attack2F, fallF, deathF, takeHitF, takeHitWhiteF;
     //temp
     public Player(GamePanel gp, KeyHandler kh, MouseHandler mh){
         gP = gp;
         kH = kh;
         mH = mh;
-
-
         //animation facing left
         attack1 = new ImageIcon("player/Attack1.png").getImage();
         attack2 = new ImageIcon("player/Attack2.png").getImage();
@@ -142,11 +143,10 @@ public class Player extends Units{
             default -> null;
         };
 
-        int hitBoxX = xCoord + 88;
-        int hitBoxY = yCoord + 69;
+         hitBoxX = xCoord + 88;
+         hitBoxY = yCoord + 69;
         g2.setColor(Color.WHITE);
         g2.fillRect(hitBoxX, hitBoxY, 25,55);
-
         g2.drawImage(image, xCoord, yCoord, null);
 
     }
