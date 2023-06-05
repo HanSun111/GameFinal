@@ -12,7 +12,6 @@ public class Units {
     public int spriteH;
     public int currentFrame;
     public int totalFrames;
-    public int delay;
     public String animation;
     public String direction;
     public int damage;

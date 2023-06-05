@@ -45,12 +45,15 @@ public class Player extends Units{
         //getPlayerImage();
     }
 
+    // things from inside units
     public void setDefaultValues(){
         xCoord = 950;
         yCoord = 420;
         speed = 5;
         spriteW = 200;
         spriteH = 200;
+        health = 100;
+        hitBox = new Rectangle(hitBoxX, hitBoxY, 25,55);
         currentFrame = 0;
         totalFrames = 8;
         animation = "idle";
@@ -79,7 +82,7 @@ public class Player extends Units{
             }
             else speed = 5;
         }
-        if (kH.jump && yCoord > 250) {
+        if (kH.jump && yCoord > 200) {
             animation = "jump";
             yCoord -= 20;
             System.out.println("jump");
@@ -100,7 +103,7 @@ public class Player extends Units{
             animation = "normalAtk";
             System.out.println("normalAtk");
         }
-        if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720) {
+        if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420) {
             animation = "special";
             System.out.println("Special");
             if (direction.equals("L")) {
