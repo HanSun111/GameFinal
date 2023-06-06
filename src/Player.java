@@ -25,6 +25,8 @@ public class Player extends Units{
         kH = kh;
         mH = mh;
 
+        myHeart = new ImageIcon("Heart/MyHeart.png").getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        myBrokenHeart = new ImageIcon("Heart/MyBrokenHeart.png").getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
         setDefaultValues();
     }
 
@@ -212,6 +214,8 @@ public class Player extends Units{
         g2.drawImage(spriteSheet, xCoord, yCoord, spriteSheet.getWidth()/totalFrames + xCoord, spriteSheet.getHeight() + yCoord, sx, sy, sx + spriteW, sy + spriteH, null);
          hitBoxX = this.xCoord + 88;
          hitBoxY = this.yCoord + 69;
+
+         g2.drawImage(myHeart, 100, 100, null);
 
     }
 
