@@ -16,7 +16,9 @@ public class Units {
     public String direction;
     public int damage;
     public int health;
-    public Rectangle hitBox;
+    public BufferedImage spriteSheet;
+    public int animationDelay;
+    public String spriteName;
 
     public BufferedImage loadImage(String imagePath) {
         try {
@@ -27,16 +29,25 @@ public class Units {
         }
     }
 
-    private void updateAnimation() {
+    public void updateAnimation() {
         currentFrame++;
         if (currentFrame >= totalFrames) {
             currentFrame = 0;
         }
     }
 
-    public Dimension getPreferredSize() {
-        return new Dimension(spriteW, spriteH);
-    }
+//    public Dimension getPreferredSize() {
+//        return new Dimension(spriteW, spriteH);
+//    }
 
-
+//    public void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//
+//        // Get the current frame's coordinates in the sprite sheet
+//        int sx = (currentFrame % (spriteSheet.getWidth() / spriteW)) * spriteW;
+//        int sy = (currentFrame / (spriteSheet.getWidth() / spriteW)) * spriteH;
+//
+//        // Draw the current frame
+//        g.drawImage(spriteSheet, 0, 0, spriteSheet.getWidth(), spriteSheet.getHeight(), sx, sy, sx + spriteW, sy + spriteH, null);
+//    }
 }

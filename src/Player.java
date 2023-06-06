@@ -1,13 +1,18 @@
+import com.intellij.ui.JBColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends Units{
+    public long pressedTimeStart;
+    public long pressTimeEnd;
     GamePanel gP;
     KeyHandler kH;
     MouseHandler mH;
     int hitBoxX;
     int hitBoxY;
+    HitBox playerHitBox;
 
     // right side
     Image idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
@@ -40,9 +45,7 @@ public class Player extends Units{
         takeHitF = new ImageIcon("player/Take Hitf.png").getImage();
         takeHitWhiteF = new ImageIcon("player/Take Hit - white silhouettef.png").getImage();
 
-
         setDefaultValues();
-        //getPlayerImage();
     }
 
     // things from inside units
@@ -50,12 +53,26 @@ public class Player extends Units{
         xCoord = 950;
         yCoord = 420;
         speed = 5;
+
+        spriteName = "Idle";
+        spriteSheet = loadImage("player/" + spriteName + ".png");
         spriteW = 200;
         spriteH = 200;
-        health = 100;
-        hitBox = new Rectangle(hitBoxX, hitBoxY, 25,55);
+        animationDelay = 100;
         currentFrame = 0;
         totalFrames = 8;
+        Timer timer = new Timer(animationDelay, e -> {
+            updateAnimation();
+            gP.repaint();
+        });
+        timer.start();
+
+
+        health = 100;
+        damage = 15;
+        // same as the rect in update, used for gamePanel logic;
+        playerHitBox = new HitBox(hitBoxX, hitBoxY, 25,55, Color.white);
+
         animation = "idle";
         direction = "R";
     }
@@ -65,6 +82,7 @@ public class Player extends Units{
         if (kH.left && xCoord > -20) {
             xCoord -= speed;
             animation = "run";
+            spriteName = "Run";
             direction = "L";
             System.out.println("left");
             if(kH.jump){
@@ -75,6 +93,7 @@ public class Player extends Units{
         if (kH.right && xCoord < 1720) {
             xCoord += speed;
             animation = "run";
+            spriteName = "Run";
             direction = "R";
             System.out.println("right");
             if(kH.jump){
@@ -83,19 +102,25 @@ public class Player extends Units{
             else speed = 5;
         }
         if (kH.jump && yCoord > 200) {
+            pressedTimeStart = System.currentTimeMillis();
             animation = "jump";
+            spriteName = "Jump";
             yCoord -= 20;
             System.out.println("jump");
         }
-        if (yCoord <= 420 && !kH.jump) {
-            try {
-                Thread.sleep(8);
-                yCoord += 8;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                // keeps running;
-                new Thread((Runnable) this).start();
-                System.exit(0);
+        if (yCoord <= 420) {
+            pressTimeEnd = System.currentTimeMillis();
+            long pressedTime = pressTimeEnd - pressedTimeStart;
+            if (!kH.jump || pressedTime > 200) {
+                try {
+                    Thread.sleep(8);
+                    yCoord += 8;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    // keeps running;
+                    new Thread((Runnable) this).start();
+                    System.exit(0);
+                }
             }
         }
 
@@ -123,34 +148,73 @@ public class Player extends Units{
                 }
             }
         }
-
     }
     public void draw(Graphics2D g2) {
 
-        Image image = switch (animation + direction) {
-            case "runL" -> runF;
-            case "runR" -> run;
+//        Image image = switch (animation + direction) {
+//            case "runL" -> runF;
+//            case "runR" -> run;
+//
+//            case "jumpL" -> jumpF;
+//            case "jumpR" -> jump;
+//
+//            case "idleL" -> idleF;
+//            case "idleR" -> idle;
+//
+//            case "normalAtkL" -> attack1F;
+//            case "normalAtkR" -> attack1;
+//
+//            case "specialL" -> attack2F;
+//            case "specialR" -> attack2;
+//
+//            default -> null;
+//        };
+//        g2.drawImage(image, xCoord, yCoord, null);
 
-            case "jumpL" -> jumpF;
-            case "jumpR" -> jump;
+        g2.setColor(Color.WHITE);
+        g2.fillRect(hitBoxX, hitBoxY, 25,55);
+        g2.setColor(Color.RED);
+        g2.fillRect(200, 50, health * 10, 30);
 
-            case "idleL" -> idleF;
-            case "idleR" -> idle;
+        spriteName = switch (animation + direction){
 
-            case "normalAtkL" -> attack1F;
-            case "normalAtkR" -> attack1;
+            case "runL" -> "Runf";
+            case "runR" -> "Run";
 
-            case "specialL" -> attack2F;
-            case "specialR" -> attack2;
+            case "jumpL" -> "Jumpf";
+            case "jumpR" -> "Jump";
+
+            case "idleL" -> "Idlef";
+            case "idleR" -> "Idle";
+
+            case "normalAtkL" -> "Attack1f";
+            case "normalAtkR" -> "Attack1";
+
+            case "specialL" -> "Attack2f";
+            case "specialR" -> "Attack2";
 
             default -> null;
         };
 
+        totalFrames = switch (animation + direction){
+            case "runL", "runR", "idleL", "idleR" -> 8;
+
+            case "jumpL", "jumpR" -> 2;
+
+            case "normalAtkL", "normalAtkR", "specialR", "specialL" -> 6;
+
+            default -> 8;
+        };
+
+        spriteSheet = loadImage("player/" + spriteName + ".png");
+        // Get the current frame's coordinates in the sprite sheet
+        int sx = (currentFrame % (spriteSheet.getWidth() / spriteW)) * spriteW;
+        int sy = (currentFrame / (spriteSheet.getWidth() / spriteW)) * spriteH;
+
+        // Draw the current frame
+        g2.drawImage(spriteSheet, xCoord, yCoord, spriteSheet.getWidth()/totalFrames + xCoord, spriteSheet.getHeight() + yCoord, sx, sy, sx + spriteW, sy + spriteH, null);
          hitBoxX = xCoord + 88;
          hitBoxY = yCoord + 69;
-        g2.setColor(Color.WHITE);
-        g2.fillRect(hitBoxX, hitBoxY, 25,55);
-        g2.drawImage(image, xCoord, yCoord, null);
 
     }
 

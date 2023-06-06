@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 public class GamePanel extends JPanel implements Runnable{
-    private BufferedImage spriteSheet;
+    Timer timer;
     Image background;
     Image backgroundModified;
 
@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
 
     Player player = new Player(this, kH, mH);
+    Enemies enemies = new Enemies(this);
 
     GamePanel() {
         this.setPreferredSize(new Dimension(1900,600));
@@ -34,8 +35,10 @@ public class GamePanel extends JPanel implements Runnable{
         g2.drawImage(backgroundModified, 0, 0, null);
 
         //character
+        g2.fillRect(player.hitBoxX, player.hitBoxY, 150, 55);
         player.draw(g2);
-        g2.drawRect(player.hitBoxX, player.hitBoxY, 150, 55);
+        enemies.draw(g2);
+
         g2.dispose();
     }
 
@@ -75,6 +78,20 @@ public void startThread(){
     }
     public void update(){
         player.update();
+        boolean intersecting = player.playerHitBox.intersects(enemies.enemyHitBox);
+        if(intersecting){
+            enemies.animation = "atk";
+        }
+        if(enemies.xCoord < player.xCoord && intersecting){
+            enemies.direction = "R";
+            enemies.animation = "walk";
+            enemies.xCoord += 5;
+        }
+        if(enemies.xCoord > player.xCoord && intersecting){
+            enemies.direction = "L";
+            enemies.animation = "walk";
+            enemies.xCoord -= 5;
+        }
     }
 
 }

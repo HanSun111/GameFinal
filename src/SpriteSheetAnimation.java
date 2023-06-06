@@ -62,8 +62,8 @@ public class SpriteSheetAnimation extends JPanel {
         super.paintComponent(g);
 
         // Get the current frame's coordinates in the sprite sheet
-        int sx = (currentFrame % (spriteSheet.getWidth() / spriteWidth)) * spriteWidth;
-        int sy = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
+        int sx = (currentFrame % (getWidth() / spriteWidth)) * spriteWidth;
+        int sy = (currentFrame / (getWidth() / spriteWidth)) * spriteHeight;
 
         // Draw the current frame
         g.drawImage(spriteSheet, 0, 0, getWidth(), getHeight(), sx, sy, sx + spriteWidth, sy + spriteHeight, null);
