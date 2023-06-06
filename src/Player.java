@@ -1,8 +1,8 @@
-import com.intellij.ui.JBColor;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+
 
 public class Player extends Units{
     public long pressedTimeStart;
@@ -38,12 +38,13 @@ public class Player extends Units{
         this.spriteSheet = loadImage("player/" + spriteName + ".png");
         this.spriteW = 200;
         this.spriteH = 200;
+        this.isAttacking = false;
         this.animationDelay = 100;
         this.currentFrame = 0;
         this.totalFrames = 8;
         this.animationTimer = new Timer(animationDelay, e -> {
-            updateAnimation();
-            gP.repaint();
+                updateAnimation();
+                gP.repaint();
         });
         this.animationTimer.start();
 
@@ -109,6 +110,16 @@ public class Player extends Units{
             kH.left = false;
             animation = "normalAtk";
             System.out.println("normalAtk");
+            if((currentFrame == 6 || currentFrame == 5) && direction.equals("R")){
+                System.out.println("Attacking");
+                isAttacking = true;
+            }
+            // would have been reversed to current frame 1 and 2 but the timer only functions with current animations going up.
+            if((currentFrame == 6 || currentFrame == 5) && direction.equals("L")){
+                System.out.println("Attacking");
+                isAttacking = true;
+            }
+
         }
         if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420) {
             animation = "special";
@@ -128,6 +139,15 @@ public class Player extends Units{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if((currentFrame == 6 || currentFrame == 5) && direction.equals("R")){
+                System.out.println("Attacking");
+                isAttacking = true;
+            }
+            // would have been reversed to current frame 1 and 2 but the timer only functions with current animations going up.
+            if((currentFrame == 6 || currentFrame == 5) && direction.equals("L")){
+                System.out.println("Attacking");
+                isAttacking = true;
             }
         }
     }
@@ -163,7 +183,6 @@ public class Player extends Units{
         };
 
         totalFrames = switch (animation + direction){
-            case "runL", "runR", "idleL", "idleR" -> 8;
 
             case "jumpL", "jumpR" -> 2;
 

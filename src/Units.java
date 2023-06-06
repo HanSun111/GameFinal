@@ -40,11 +40,11 @@ public class Units {
         }
     }
 
-    public void updateAnimationReverse() {
-        currentFrame--;
-        if (currentFrame < totalFrames) {
-            currentFrame = totalFrames;
-        }
-    }
+//    public void updateAnimationReverse() {
+//        currentFrame--;
+//        if (currentFrame < totalFrames) {
+//            currentFrame = totalFrames;
+//        }
+//    }
 
 }
