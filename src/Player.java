@@ -24,58 +24,37 @@ public class Player extends Units{
         gP = gp;
         kH = kh;
         mH = mh;
-        //animation facing left
-//        attack1 = new ImageIcon("player/Attack1.png").getImage();
-//        attack2 = new ImageIcon("player/Attack2.png").getImage();
-//        death = new ImageIcon("player/Death.png").getImage();
-//        fall = new ImageIcon("player/Fall.png").getImage();
-//        jump = new ImageIcon("player/Jump.png").getImage();
-//        run = new ImageIcon("player/Run.png").getImage();
-//        idle = new ImageIcon("player/Idle.png").getImage();
-//        takeHit = new ImageIcon("player/Take Hit.png").getImage();
-//        takeHitWhite = new ImageIcon("player/Take Hit - white silhouette.png").getImage();
-//
-//        //animation facing right
-//        attack1F = new ImageIcon("player/Attack1f.png").getImage();
-//        attack2F = new ImageIcon("player/Attack2f.png").getImage();
-//        deathF = new ImageIcon("player/Deathf.png").getImage();
-//        fallF = new ImageIcon("player/Fallf.png").getImage();
-//        jumpF = new ImageIcon("player/Jumpf.png").getImage();
-//        runF = new ImageIcon("player/Runf.png").getImage();
-//        idleF = new ImageIcon("player/Idlef.png").getImage();
-//        takeHitF = new ImageIcon("player/Take Hitf.png").getImage();
-//        takeHitWhiteF = new ImageIcon("player/Take Hit - white silhouettef.png").getImage();
 
         setDefaultValues();
     }
 
     // things from inside units
     public void setDefaultValues(){
-        xCoord = 950;
-        yCoord = 420;
-        speed = 5;
+        this.xCoord = 950;
+        this.yCoord = 420;
+        this.speed = 5;
 
-        spriteName = "Idle";
-        spriteSheet = loadImage("player/" + spriteName + ".png");
-        spriteW = 200;
-        spriteH = 200;
-        animationDelay = 100;
-        currentFrame = 0;
-        totalFrames = 8;
-        Timer timer = new Timer(animationDelay, e -> {
+        this.spriteName = "Idle";
+        this.spriteSheet = loadImage("player/" + spriteName + ".png");
+        this.spriteW = 200;
+        this.spriteH = 200;
+        this.animationDelay = 100;
+        this.currentFrame = 0;
+        this.totalFrames = 8;
+        this.animationTimer = new Timer(animationDelay, e -> {
             updateAnimation();
             gP.repaint();
         });
-        timer.start();
+        this.animationTimer.start();
 
 
-        health = 100;
-        damage = 15;
+        this.health = 100;
+        this.damage = 15;
         // same as the rect in update, used for gamePanel logic;
-        playerHitBox = new HitBox(hitBoxX, hitBoxY, 25,55, Color.white);
+        this.playerHitBox = new HitBox(hitBoxX, hitBoxY, 25,55, Color.white);
 
-        animation = "idle";
-        direction = "R";
+        this.animation = "idle";
+        this.direction = "R";
     }
 
     public void update() {
@@ -154,26 +133,6 @@ public class Player extends Units{
     }
     public void draw(Graphics2D g2) {
 
-//        Image image = switch (animation + direction) {
-//            case "runL" -> runF;
-//            case "runR" -> run;
-//
-//            case "jumpL" -> jumpF;
-//            case "jumpR" -> jump;
-//
-//            case "idleL" -> idleF;
-//            case "idleR" -> idle;
-//
-//            case "normalAtkL" -> attack1F;
-//            case "normalAtkR" -> attack1;
-//
-//            case "specialL" -> attack2F;
-//            case "specialR" -> attack2;
-//
-//            default -> null;
-//        };
-//        g2.drawImage(image, xCoord, yCoord, null);
-
         g2.setColor(Color.WHITE);
         g2.fillRect(hitBoxX, hitBoxY, 25,55);
 
@@ -194,6 +153,12 @@ public class Player extends Units{
             case "specialL" -> "Attack2f";
             case "specialR" -> "Attack2";
 
+            case "takeHitL" -> "Take Hit - white silhouette";
+            case "takeHitR" -> "Take Hit - white silhouettef";
+
+            case "deathL" -> "Deathf";
+            case "deathR" -> "Death";
+
             default -> null;
         };
 
@@ -202,7 +167,9 @@ public class Player extends Units{
 
             case "jumpL", "jumpR" -> 2;
 
-            case "normalAtkL", "normalAtkR", "specialR", "specialL" -> 6;
+            case "normalAtkL", "normalAtkR", "specialR", "specialL", "deathL", "deathR" -> 6;
+
+            case "takeHitL", "takeHitR" -> 4;
 
             default -> 8;
         };
