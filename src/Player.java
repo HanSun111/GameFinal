@@ -18,32 +18,33 @@ public class Player extends Units{
     Image idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
     // left side
     Image idleF, runF, jumpF, attack1F, attack2F, fallF, deathF, takeHitF, takeHitWhiteF;
+    Image myHeart, myBrokenHeart;
     //temp
     public Player(GamePanel gp, KeyHandler kh, MouseHandler mh){
         gP = gp;
         kH = kh;
         mH = mh;
         //animation facing left
-        attack1 = new ImageIcon("player/Attack1.png").getImage();
-        attack2 = new ImageIcon("player/Attack2.png").getImage();
-        death = new ImageIcon("player/Death.png").getImage();
-        fall = new ImageIcon("player/Fall.png").getImage();
-        jump = new ImageIcon("player/Jump.png").getImage();
-        run = new ImageIcon("player/Run.png").getImage();
-        idle = new ImageIcon("player/Idle.png").getImage();
-        takeHit = new ImageIcon("player/Take Hit.png").getImage();
-        takeHitWhite = new ImageIcon("player/Take Hit - white silhouette.png").getImage();
-
-        //animation facing right
-        attack1F = new ImageIcon("player/Attack1f.png").getImage();
-        attack2F = new ImageIcon("player/Attack2f.png").getImage();
-        deathF = new ImageIcon("player/Deathf.png").getImage();
-        fallF = new ImageIcon("player/Fallf.png").getImage();
-        jumpF = new ImageIcon("player/Jumpf.png").getImage();
-        runF = new ImageIcon("player/Runf.png").getImage();
-        idleF = new ImageIcon("player/Idlef.png").getImage();
-        takeHitF = new ImageIcon("player/Take Hitf.png").getImage();
-        takeHitWhiteF = new ImageIcon("player/Take Hit - white silhouettef.png").getImage();
+//        attack1 = new ImageIcon("player/Attack1.png").getImage();
+//        attack2 = new ImageIcon("player/Attack2.png").getImage();
+//        death = new ImageIcon("player/Death.png").getImage();
+//        fall = new ImageIcon("player/Fall.png").getImage();
+//        jump = new ImageIcon("player/Jump.png").getImage();
+//        run = new ImageIcon("player/Run.png").getImage();
+//        idle = new ImageIcon("player/Idle.png").getImage();
+//        takeHit = new ImageIcon("player/Take Hit.png").getImage();
+//        takeHitWhite = new ImageIcon("player/Take Hit - white silhouette.png").getImage();
+//
+//        //animation facing right
+//        attack1F = new ImageIcon("player/Attack1f.png").getImage();
+//        attack2F = new ImageIcon("player/Attack2f.png").getImage();
+//        deathF = new ImageIcon("player/Deathf.png").getImage();
+//        fallF = new ImageIcon("player/Fallf.png").getImage();
+//        jumpF = new ImageIcon("player/Jumpf.png").getImage();
+//        runF = new ImageIcon("player/Runf.png").getImage();
+//        idleF = new ImageIcon("player/Idlef.png").getImage();
+//        takeHitF = new ImageIcon("player/Take Hitf.png").getImage();
+//        takeHitWhiteF = new ImageIcon("player/Take Hit - white silhouettef.png").getImage();
 
         setDefaultValues();
     }
@@ -125,6 +126,8 @@ public class Player extends Units{
         }
 
         if(mH.attacking && !mH.special){
+            kH.right = false;
+            kH.left = false;
             animation = "normalAtk";
             System.out.println("normalAtk");
         }
@@ -173,8 +176,6 @@ public class Player extends Units{
 
         g2.setColor(Color.WHITE);
         g2.fillRect(hitBoxX, hitBoxY, 25,55);
-        g2.setColor(Color.RED);
-        g2.fillRect(200, 50, health * 10, 30);
 
         spriteName = switch (animation + direction){
 
@@ -206,21 +207,26 @@ public class Player extends Units{
             default -> 8;
         };
 
-        spriteSheet = loadImage("player/" + spriteName + ".png");
+        animationDelay = switch (animation + direction){
+            case "runL", "runR", "idleL", "idleR" -> 200;
+
+            case "jumpL", "jumpR" -> 200;
+
+            case "normalAtkL", "normalAtkR", "specialR", "specialL" -> 150;
+
+            default -> 100;
+        };
+
+        this.spriteSheet = loadImage("player/" + this.spriteName + ".png");
         // Get the current frame's coordinates in the sprite sheet
-        int sx = (currentFrame % (spriteSheet.getWidth() / spriteW)) * spriteW;
-        int sy = (currentFrame / (spriteSheet.getWidth() / spriteW)) * spriteH;
+        int sx = (this.currentFrame % (this.spriteSheet.getWidth() / this.spriteW)) * this.spriteW;
+        int sy = (this.currentFrame / (this.spriteSheet.getWidth() / this.spriteW)) * this.spriteH;
 
         // Draw the current frame
         g2.drawImage(spriteSheet, xCoord, yCoord, spriteSheet.getWidth()/totalFrames + xCoord, spriteSheet.getHeight() + yCoord, sx, sy, sx + spriteW, sy + spriteH, null);
-         hitBoxX = xCoord + 88;
-         hitBoxY = yCoord + 69;
+         hitBoxX = this.xCoord + 88;
+         hitBoxY = this.yCoord + 69;
 
-    }
-
-
-    public BufferedImage grabSprite(int x, int y, int w, int h, BufferedImage imageName){
-        return imageName.getSubimage(x, y, w, h);
     }
 
 }

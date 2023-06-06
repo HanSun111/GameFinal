@@ -16,6 +16,7 @@ public class Units {
     public String direction;
     public int damage;
     public int health;
+    public boolean isAttacking;
     public BufferedImage spriteSheet;
     public int animationDelay;
     public String spriteName;
@@ -33,6 +34,13 @@ public class Units {
         currentFrame++;
         if (currentFrame >= totalFrames) {
             currentFrame = 0;
+        }
+    }
+
+    public void updateAnimationReverse() {
+        currentFrame--;
+        if (currentFrame < totalFrames) {
+            currentFrame = totalFrames;
         }
     }
 

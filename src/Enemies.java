@@ -29,24 +29,27 @@ public class Enemies extends Units{
     }
 
     public void setDefaultValues() {
-        yCoord = 445;
-        speed = 8;
-        animation = "idle";
+        this.yCoord = 445;
+        this.speed = 8;
+        this.health = 45;
+        this.damage = 20;
+        isAttacking = false;
+        this.animation = "idle";
         if ((int) (Math.random() * 2) == 0) {
-            direction = "L";
-            xCoord = 1700;
+            this.direction = "L";
+            this.xCoord = 1700;
         } else {
-            direction = "R";
-            xCoord = 200;
+            this.direction = "R";
+            this.xCoord = 200;
         }
 
-        spriteName = "Idle";
-        spriteSheet = loadImage("player/" + spriteName + ".png");
-        spriteW = 200;
-        spriteH = 200;
-        animationDelay = 100;
-        currentFrame = 0;
-        totalFrames = 8;
+        this.spriteName = "Idle";
+        this.spriteSheet = loadImage("player/" + spriteName + ".png");
+        this.spriteW = 150;
+        this.spriteH = 150;
+        this.animationDelay = 100;
+        this.currentFrame = 0;
+        this.totalFrames = 4;
         Timer timer = new Timer(animationDelay, e -> {
             updateAnimation();
             gP.repaint();
@@ -55,33 +58,70 @@ public class Enemies extends Units{
     }
 
     public void update(){
+        isAttacking = false;
+        boolean intersecting = gP.player.playerHitBox.intersects(enemyHitBox);
+
+        if(spriteName.equals("atkR") || spriteName.equals("atkL")){
+            if(spriteName.equals("atkL") && (this.currentFrame == 7 || this.currentFrame == 8)){
+                System.out.println("enemy attacking");
+                isAttacking = true;
+            }
+        }
+
+        if(intersecting){
+            this.animation = "atk";
+        }
+        if(this.xCoord < gP.player.xCoord && intersecting){
+            this.direction = "R";
+            this.animation = "walk";
+            this.xCoord += 5;
+        }
+        if(this.xCoord > gP.player.xCoord && intersecting){
+            this.direction = "L";
+            this.animation = "walk";
+            this.xCoord -= 5;
+        }
 
     }
 
     public void draw(Graphics2D g2) {
-        Image image = switch (animation + direction){
-            case "walkL" -> walkF;
-            case "walkR" -> walk;
+        spriteName = switch (animation + direction){
+            case "walkL" -> "Walkf";
+            case "walkR" -> "Walk";
 
-            case "takeHitL" -> takeHitF;
-            case "takeHitR" -> takeHit;
+            case "takeHitL" -> "Take Hitf";
+            case "takeHitR" -> "Take Hit";
 
-            case "idleL" -> idleF;
-            case "idleR" -> idle;
+            case "idleL" -> "Idlef";
+            case "idleR" -> "Idle";
 
-            case "atkL" -> attackF;
-            case "atkR" -> attack;
+            case "atkL" -> "Attackf";
+            case "atkR" -> "Attack";
 
-            case "DeathL" -> deathF;
-            case "DeathR" -> death;
+            case "DeathL" -> "Deathf";
+            case "DeathR" -> "Death";
 
             default -> null;
+        };
+
+        this.totalFrames = switch (animation + direction){
+            case "walkL", "walkR", "takeHitR", "takeHitL", "idleR", "idleL", "DeathL", "DeathR" -> 4;
+
+            case "atkL", "atkR" -> 8;
+
+            default -> 4;
         };
         g2.setColor(Color.cyan);
         hitBoxX = xCoord + 55;
         hitBoxY = yCoord + 48;
         g2.fillRect(hitBoxX, hitBoxY, 35, 55);
-        g2.drawImage(image, xCoord, yCoord, null);
+
+        spriteSheet = loadImage("Skelly/" + spriteName + ".png");
+        // Get the current frame's coordinates in the sprite sheet
+        int sx = (currentFrame % (spriteSheet.getWidth() / spriteW)) * spriteW;
+        int sy = (currentFrame / (spriteSheet.getWidth() / spriteW)) * spriteH;
+
+        g2.drawImage(spriteSheet, xCoord, yCoord, spriteSheet.getWidth()/totalFrames + xCoord, spriteSheet.getHeight() + yCoord, sx, sy, sx + spriteW, sy + spriteH, null);
 
     }
 }

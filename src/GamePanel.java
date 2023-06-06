@@ -78,20 +78,8 @@ public void startThread(){
     }
     public void update(){
         player.update();
-        boolean intersecting = player.playerHitBox.intersects(enemies.enemyHitBox);
-        if(intersecting){
-            enemies.animation = "atk";
-        }
-        if(enemies.xCoord < player.xCoord && intersecting){
-            enemies.direction = "R";
-            enemies.animation = "walk";
-            enemies.xCoord += 5;
-        }
-        if(enemies.xCoord > player.xCoord && intersecting){
-            enemies.direction = "L";
-            enemies.animation = "walk";
-            enemies.xCoord -= 5;
-        }
+        enemies.update();
+
     }
 
 }
