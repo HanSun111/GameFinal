@@ -84,6 +84,9 @@ public class Enemies extends Units{
             if(this.currentFrame == 7 || this.currentFrame == 8){
                 isAttacking = true;
             }
+            if(health <= 0){
+                animation = "death";
+            }
         }
 
 
@@ -103,8 +106,8 @@ public class Enemies extends Units{
             case "atkL" -> "Attackf";
             case "atkR" -> "Attack";
 
-            case "DeathL" -> "Deathf";
-            case "DeathR" -> "Death";
+            case "deathL" -> "Deathf";
+            case "deathR" -> "Death";
 
             default -> null;
         };
@@ -128,5 +131,8 @@ public class Enemies extends Units{
 
         g2.drawImage(spriteSheet, xCoord, yCoord, spriteSheet.getWidth()/totalFrames + xCoord, spriteSheet.getHeight() + yCoord, sx, sy, sx + spriteW, sy + spriteH, null);
 
+        if(animation.equals("death") && currentFrame == totalFrames){
+            g2.clearRect(100, 100, 30, 30);
+        }
     }
 }

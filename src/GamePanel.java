@@ -80,7 +80,9 @@ public void startThread(){
     public void update(){
         player.update();
         enemies.update();
-
+        if(player.playerHitBox.intersects(enemies.enemyHitBox) && player.isAttacking){
+            enemies.health -= player.damage;
+        }
     }
 
 }

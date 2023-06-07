@@ -141,6 +141,7 @@ public class Player extends Units{
 
 
         if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420 && successHit == 3) {
+            damage = 30;
             Timer timer = new Timer(500, e -> {
                 successHit = 0;
             });
