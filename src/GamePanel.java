@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class GamePanel extends JPanel implements Runnable{
     Timer timer;
     Image background;
