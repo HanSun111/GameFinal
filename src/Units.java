@@ -17,7 +17,7 @@ public class Units {
     public String direction;
     public int damage;
     public int health;
-    public boolean isAttacking;
+    public boolean isAttacking, isHit, isDead;
     public BufferedImage spriteSheet;
     public int animationDelay;
     public String spriteName;

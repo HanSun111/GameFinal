@@ -10,8 +10,4 @@ public class HitBox extends Rectangle {
         this.color = color;
 
     }
-
-
-
-
 }

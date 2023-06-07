@@ -1,7 +1,7 @@
 import java.io.*;
 
 public class HighScoreReporter {
-    private static final String HIGH_SCORE_FILE = "highscore.txt";
+    public static final String HIGH_SCORE_FILE = "highscore.txt";
 
     public static void recordHighScore(String playerName, int score) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(HIGH_SCORE_FILE, true))) {

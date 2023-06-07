@@ -30,10 +30,11 @@ public class Enemies extends Units{
 
     public void setDefaultValues() {
         this.yCoord = 445;
-        this.speed = 8;
+        this.speed = 4;
         this.health = 45;
         this.damage = 20;
-        isAttacking = false;
+        this.isAttacking = false;
+        this.isHit = false;
         this.animation = "idle";
         if ((int) (Math.random() * 2) == 0) {
             this.direction = "L";
@@ -47,7 +48,7 @@ public class Enemies extends Units{
         this.spriteSheet = loadImage("player/" + spriteName + ".png");
         this.spriteW = 150;
         this.spriteH = 150;
-        this.animationDelay = 100;
+        this.animationDelay = 150;
         this.currentFrame = 0;
         this.totalFrames = 4;
         Timer timer = new Timer(animationDelay, e -> {
@@ -60,27 +61,31 @@ public class Enemies extends Units{
     public void update(){
         isAttacking = false;
         boolean intersecting = gP.player.playerHitBox.intersects(enemyHitBox);
+        if(intersecting){
+            this.animation = "atk";
+        }
+        if(this.xCoord < gP.player.xCoord){
+            this.direction = "R";
+            this.animation = "walk";
+            this.xCoord += this.speed;
+        }
+        if(this.xCoord > gP.player.xCoord + 50){
+            this.direction = "L";
+            this.animation = "walk";
+            this.xCoord -= this.speed;
+        }
 
         if(spriteName.equals("atkR") || spriteName.equals("atkL")){
-            if(spriteName.equals("atkL") && (this.currentFrame == 7 || this.currentFrame == 8)){
-                System.out.println("enemy attacking");
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(this.currentFrame == 7 || this.currentFrame == 8){
                 isAttacking = true;
             }
         }
 
-        if(intersecting){
-            this.animation = "atk";
-        }
-        if(this.xCoord < gP.player.xCoord && intersecting){
-            this.direction = "R";
-            this.animation = "walk";
-            this.xCoord += 5;
-        }
-        if(this.xCoord > gP.player.xCoord && intersecting){
-            this.direction = "L";
-            this.animation = "walk";
-            this.xCoord -= 5;
-        }
 
     }
 

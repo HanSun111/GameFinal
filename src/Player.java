@@ -12,21 +12,22 @@ public class Player extends Units{
     MouseHandler mH;
     int hitBoxX;
     int hitBoxY;
+    public int lives, successHit;
     HitBox playerHitBox;
-
-    // right side
-    Image idle, run, jump, attack1, attack2, fall, death, takeHit, takeHitWhite;
-    // left side
-    Image idleF, runF, jumpF, attack1F, attack2F, fallF, deathF, takeHitF, takeHitWhiteF;
-    Image myHeart, myBrokenHeart;
+    HitBox normalAtkHitBoxL, specialAtkHitBoxL, normalAtkHitBoxR, specialAtkHitBoxR;
+    Image myHeart1, myHeart2, myHeart3, healthyHeart, myBrokenHeart;
+    Image chargeStatus1, chargeStatus2, chargeStatus3, fullCharge, needCharge;
     //temp
     public Player(GamePanel gp, KeyHandler kh, MouseHandler mh){
         gP = gp;
         kH = kh;
         mH = mh;
 
-        myHeart = new ImageIcon("Heart/MyHeart.png").getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        healthyHeart = new ImageIcon("Heart/MyHeart.png").getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
         myBrokenHeart = new ImageIcon("Heart/MyBrokenHeart.png").getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        fullCharge = new ImageIcon("Energy/charged.png").getImage().getScaledInstance(70, 38, Image.SCALE_SMOOTH);
+        needCharge = new ImageIcon("Energy/uncharged.png").getImage().getScaledInstance(70, 38, Image.SCALE_SMOOTH);
+
         setDefaultValues();
     }
 
@@ -40,7 +41,12 @@ public class Player extends Units{
         this.spriteSheet = loadImage("player/" + spriteName + ".png");
         this.spriteW = 200;
         this.spriteH = 200;
+        this.lives = 3;
+        successHit = 3;
+        myHeart1 = healthyHeart; myHeart2 = healthyHeart; myHeart3 = healthyHeart;
+        chargeStatus1 = needCharge; chargeStatus2 = needCharge; chargeStatus3 = needCharge;
         this.isAttacking = false;
+        this.isHit = false;
         this.animationDelay = 100;
         this.currentFrame = 0;
         this.totalFrames = 8;
@@ -53,8 +59,11 @@ public class Player extends Units{
 
         this.health = 100;
         this.damage = 15;
+
         // same as the rect in update, used for gamePanel logic;
-        this.playerHitBox = new HitBox(hitBoxX, hitBoxY, 25,55, Color.white);
+        playerHitBox = new HitBox(hitBoxX, hitBoxY, 25,55, Color.white);
+        normalAtkHitBoxL = new HitBox(hitBoxX - 55, hitBoxY, 55, 55, Color.darkGray);
+        normalAtkHitBoxR = new HitBox(hitBoxX + 80, hitBoxY, 55, 55, Color.darkGray);
 
         this.animation = "idle";
         this.direction = "R";
@@ -63,6 +72,7 @@ public class Player extends Units{
     public void update() {
         animation = "idle";
         if (kH.left && xCoord > -20) {
+            lives--;
             xCoord -= speed;
             animation = "run";
             spriteName = "Run";
@@ -108,55 +118,66 @@ public class Player extends Units{
         }
 
         if(mH.attacking && !mH.special){
-            kH.right = false;
-            kH.left = false;
             animation = "normalAtk";
-            System.out.println("normalAtk");
             if((currentFrame == 6 || currentFrame == 5) && direction.equals("R")){
                 System.out.println("Attacking");
                 isAttacking = true;
+                if(successHit < 3) {
+                    successHit++;
+                    System.out.println("successhit");
+                }
             }
             // would have been reversed to current frame 1 and 2 but the timer only functions with current animations going up.
-            if((currentFrame == 6 || currentFrame == 5) && direction.equals("L")){
+            if((currentFrame == 1 || currentFrame == 2) && direction.equals("L")){
                 System.out.println("Attacking");
                 isAttacking = true;
+                if(successHit < 3) {
+                    successHit++;
+                    System.out.println("successhit");
+                }
             }
 
         }
-        if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420) {
+
+
+        if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420 && successHit == 3) {
+            Timer timer = new Timer(500, e -> {
+                successHit = 0;
+            });
             animation = "special";
-            System.out.println("Special");
-            if (direction.equals("L")) {
+            if (direction.equals("L") && (currentFrame == 6 || currentFrame == 5)) {
+                System.out.println("Special");
+                isAttacking = true;
                 try {
                     Thread.sleep(25);
                     xCoord -= 55;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
-            if (direction.equals("R")) {
+                timer.start();
+
+            } else if (direction.equals("R") && (currentFrame == 6 || currentFrame == 5)) {
+                System.out.println("Special");
+                isAttacking = true;
                 try {
                     Thread.sleep(25);
                     xCoord += 55;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                timer.start();
             }
-            if((currentFrame == 6 || currentFrame == 5) && direction.equals("R")){
-                System.out.println("Attacking");
-                isAttacking = true;
-            }
-            // would have been reversed to current frame 1 and 2 but the timer only functions with current animations going up.
-            if((currentFrame == 6 || currentFrame == 5) && direction.equals("L")){
-                System.out.println("Attacking");
-                isAttacking = true;
-            }
+            timer.stop();
         }
+
+
+
     }
     public void draw(Graphics2D g2) {
 
         g2.setColor(Color.WHITE);
         g2.fillRect(hitBoxX, hitBoxY, 25,55);
+
 
         spriteName = switch (animation + direction){
 
@@ -198,11 +219,37 @@ public class Player extends Units{
         animationDelay = switch (animation + direction){
             case "runL", "runR", "idleL", "idleR" -> 200;
 
-            case "jumpL", "jumpR" -> 200;
+            case "jumpL", "jumpR" -> 180;
 
             case "normalAtkL", "normalAtkR", "specialR", "specialL" -> 150;
 
             default -> 100;
+        };
+
+        myHeart3 = switch (lives){
+            case 2, 1 -> myBrokenHeart;
+            default -> healthyHeart;
+        };
+        myHeart2 = switch (lives){
+            case 1 -> myBrokenHeart;
+            default -> healthyHeart;
+        };
+        myHeart1 = switch (lives){
+            case 0 -> myBrokenHeart;
+            default -> healthyHeart;
+        };
+
+        chargeStatus3 = switch (successHit){
+            case 3, 2, 1 -> fullCharge;
+            default -> needCharge;
+        };
+        chargeStatus2 = switch (successHit){
+            case 3, 2 -> fullCharge;
+            default -> needCharge;
+        };
+        chargeStatus1 = switch (successHit){
+            case 3 -> fullCharge;
+            default -> needCharge;
         };
 
         this.spriteSheet = loadImage("player/" + this.spriteName + ".png");
@@ -215,7 +262,14 @@ public class Player extends Units{
          hitBoxX = this.xCoord + 88;
          hitBoxY = this.yCoord + 69;
 
-         g2.drawImage(myHeart, 100, 100, null);
+         g2.drawImage(myHeart1, 50, 10, null);
+         g2.drawImage(myHeart2, 100, 10, null);
+         g2.drawImage(myHeart3, 150, 10, null);
+
+         g2.drawImage(chargeStatus1, 50, 70, null);
+         g2.drawImage(chargeStatus2, 100, 70, null);
+         g2.drawImage(chargeStatus3, 150, 70, null);
+
 
     }
 

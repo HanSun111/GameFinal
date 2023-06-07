@@ -7,6 +7,7 @@ public class GamePanel extends JPanel implements Runnable{
     Image backgroundModified;
 
     final int FPS = 60;
+    int score;
 
     KeyHandler kH = new KeyHandler();
     MouseHandler mH = new MouseHandler();
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable{
     Enemies enemies = new Enemies(this);
 
     GamePanel() {
+        score = 0;
         this.setPreferredSize(new Dimension(1900,600));
         // sets background to size of the dimensions;
         background = new ImageIcon("Background/forest.png").getImage();
@@ -28,14 +30,13 @@ public class GamePanel extends JPanel implements Runnable{
         this.addMouseListener(mH);
         this.setFocusable(true);
     }
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
         g2.drawImage(backgroundModified, 0, 0, null);
 
         //character
-        g2.fillRect(player.hitBoxX, player.hitBoxY, 150, 55);
         player.draw(g2);
         enemies.draw(g2);
 
