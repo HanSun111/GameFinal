@@ -122,40 +122,28 @@ public class Player extends Units{
             if((currentFrame == 6 || currentFrame == 5) && direction.equals("R")){
                 System.out.println("Attacking");
                 isAttacking = true;
-                if(successHit < 3) {
-                    successHit++;
-                    System.out.println("successhit");
-                }
             }
+
             // would have been reversed to current frame 1 and 2 but the timer only functions with current animations going up.
             if((currentFrame == 1 || currentFrame == 2) && direction.equals("L")){
                 System.out.println("Attacking");
                 isAttacking = true;
-                if(successHit < 3) {
-                    successHit++;
-                    System.out.println("successhit");
-                }
             }
 
         }
 
-
         if(mH.special && !mH.attacking && xCoord > -20 && xCoord < 1720 && yCoord >= 420 && successHit == 3) {
             damage = 30;
-            Timer timer = new Timer(500, e -> {
-                successHit = 0;
-            });
             animation = "special";
             if (direction.equals("L") && (currentFrame == 6 || currentFrame == 5)) {
                 System.out.println("Special");
                 isAttacking = true;
                 try {
-                    Thread.sleep(25);
+                    Thread.sleep(500);
                     xCoord -= 55;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                timer.start();
 
             } else if (direction.equals("R") && (currentFrame == 6 || currentFrame == 5)) {
                 System.out.println("Special");
@@ -166,9 +154,7 @@ public class Player extends Units{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                timer.start();
             }
-            timer.stop();
         }
 
 

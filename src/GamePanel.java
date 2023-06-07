@@ -84,7 +84,10 @@ public void startThread(){
         player.update();
         enemies.update();
         if(player.playerHitBox.intersects(enemies.enemyHitBox) && player.isAttacking){
-            enemies.health -= player.damage;
+
+        }
+        if(player.mH.special && player.successHit == 3){
+            player.successHit = 0;
         }
     }
 
